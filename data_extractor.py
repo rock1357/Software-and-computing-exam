@@ -1,6 +1,6 @@
 import numpy as np
 import parameter_setter as ps
-
+import plot_shower as pls
 'step 0: are you an user or a pogrammer decided to improove the program?'
 test=1; 'if test is =0 it will activate the interactive user mode, otherwise it will activate the developer mode: no needs to insert parameters and pytests available for finding proiblems'
 
@@ -136,6 +136,7 @@ if test==1:
 else:
     print('***^^ENDING PYTHON CHRONOAMPEROMETRIC txt/csv DATA IMPORTER:downloading of the data (USER MODE: test=0)^^*** \n')
 
+pls.plot_shower(t,V,0,tn,Vn)
 
 ps.parameter_setter(t,V,tn,Vn,test)
 
