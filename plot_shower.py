@@ -36,8 +36,26 @@ def plot_shower(t1,V1,a,t2=0,V2=0):
         plt.ylabel('Current [A]')
       
         # giving a title to my graph
-        plt.title('your noise trace')
+        plt.title('noise trace')
       
         # function to show the plot
         plt.show()
+        
+    elif a==1:
+        
+        'plot of the choosen partial time trace-figure divided by the gain'
+        # plotting the points 
+        plt.plot(t1,V1)
+        # naming the x axis
+        plt.xlabel('time[s]')
+        # naming the y axis
+        plt.ylabel('Current [A]')
+
+        # giving a title to my graph
+        plt.title('your choosen partial time trace')
+
+        # function to show the plot
+        plt.show()
+
+
         return 0
