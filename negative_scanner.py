@@ -1,6 +1,6 @@
 import plot_shower as ps
 import numpy as np
-#import negative_peak_levelling as npl
+import negative_peak_levelling as npl
 
 
     
@@ -33,8 +33,10 @@ def negative_scanner(t,V,noise,time_constraint,test):
 
     for s in range(0,l):
         
+        
         if s==0 and V[0]<0:
             j=0
+            
             while V[j]<0:
                 j=j+1
                 V[j-1]=0
@@ -49,15 +51,19 @@ def negative_scanner(t,V,noise,time_constraint,test):
         if s==l-1 and V[s]<0:
             j=s
             while V[j]<0:
+                
                 j=j-1
                 V[j+1]=0
-                t[j-1]=0
+                t[j+1]=0 # correction
                 if V[j]>0:
-                    print('-In order to avoid incomplete peak extraction \n at the right side of the boundaries, \n we made the scanner to skip the lasts:',j,'points')
-                    s=j
+                    V[j]=0
+                    t[j]=0
+                    print('-In order to avoid incomplete peak extraction \n at the right side of the boundaries, \n we made the scanner to skip the lasts:',l-j,'points')
+                    s=j-1
                     break
             
         assert V[s:l-1].all()>=0
+    #breakpoint()
         
             
             
@@ -100,8 +106,10 @@ def negative_scanner(t,V,noise,time_constraint,test):
                 if first_while_parameter<1:
                     
                     ' if the condition is already true at the onset of the loop, then break the while loop'
-                    print('N.B]The first extracted peak is not reliable \n    because too close to the left boundary of \n    the trace')
-                    V_peak[first_while_parameter]=V[first_while_parameter];
+                    print('N.B]The first V value is already >0')
+                    
+                    V_peak[first_while_parameter]=float(V[first_while_parameter]);
+                    t_peak[first_while_parameter]=float(t[first_while_parameter]);
                     first_while_parameter=first_while_parameter+1;
                     break; 'go to the second while in order to save the points of the selected peak in a new array'
                     'N.B) this condition should not be activated anymore, since we implemented the first two for loops at the onset, but is usefull to not erase in order to make the scope of these latter more clear'
@@ -124,6 +132,7 @@ def negative_scanner(t,V,noise,time_constraint,test):
         
            
             while 2:
+                
                 '''step 3.3: once reached the V>0 at the left, continue up to the V>0 at the right in order to close the peak'''
                 
                 
@@ -171,7 +180,8 @@ def negative_scanner(t,V,noise,time_constraint,test):
             
     nan_points=0
             
-    'step 3.5: at the last while iteration tell me the number of the extracted peaks '       
+    'step 3.5: at the last while iteration tell me the number of the extracted peaks '
+       
     if w_parameter==l-1 :
         print('-the total number of extracted peaks is:',peak_n)
         print('\n***^^ END NEGATIVE SCANNER METHOD ^^*** \n')
@@ -186,17 +196,21 @@ def negative_scanner(t,V,noise,time_constraint,test):
              t_peak[i]=np.nan
              V_peak[i]=np.nan
              
-            
+             
              if i==l-1:
-           
-                 assert sum(points_nth_peak)-shared_points==l-nan_points, 'the number of the points of the extracted peaks \n should be equal to the number of the \n total point - the number of the ones converted in nan'
+                
                  
+                 assert l-nan_points-1==sum(points_nth_peak)-shared_points or sum(points_nth_peak)-shared_points==l-nan_points ,'the number of the points of the extracted peaks \n should be equal to the number of the \n total point - the number of the ones converted in nan'; 'problem here'
+                
     for i in range(0,peak_n):
+        
+        
         assert len(V[save_starting_parameter[i]:save_ending_parameter[i]])+1==points_nth_peak[i], 'the number of points between the starting and ending  parameters should be equal to the number of points under the correspondent peak'
         
     for i in range(0,l):
-        assert type(t_peak[i])==float,'these numbers should be all float'
-        assert type(V_peak[i])==float,'these numbers should be all float'
+        
+        assert type(t_peak[i])==float ,'these numbers should be all float'
+        assert type(V_peak[i])==float ,'these numbers should be all float'
             
         
     assert len(t_peak)==len(V_peak), 'obviously they should have same length'
@@ -209,7 +223,7 @@ def negative_scanner(t,V,noise,time_constraint,test):
    
     
     
-    #c=npl.negative_peak_levelling(save_starting_parameter,save_ending_parameter,peak_n,l,noise,time_constraint,t_peak,V_peak)
+    c=npl.negative_peak_levelling(save_starting_parameter,save_ending_parameter,peak_n,l,noise,time_constraint,t_peak,V_peak)
     
   
         
