@@ -72,6 +72,22 @@ def plot_shower(t1,V1,a,t2=0,V2=0):
 
         # function to show the plot
         plt.show()
+        
+    elif a==3:
+        
+        'plot of the extracted peaks through time constraint'
+        # plotting the points 
+        plt.plot(t1,V1)
+        # naming the x axis
+        plt.xlabel('time[s]')
+        # naming the y axis
+        plt.ylabel('Current [A]')
+
+        # giving a title to my graph
+        plt.title('extracted peaks thorugh time constraint')
+
+        # function to show the plot
+        plt.show()
 
 
         return 0
