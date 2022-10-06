@@ -27,8 +27,9 @@ def negative_scanner(t,V,noise,time_constraint,test):
      peaks, so the next for-loops allow to change to 0 the voltage values at the onset and at the ending of the trace"""
     
     
-    if l<500 :
-        print("too few points")
+    if l<50 :
+        print("WARNING:too few points")
+        return 0
          
 
     for s in range(0,l):
@@ -56,14 +57,13 @@ def negative_scanner(t,V,noise,time_constraint,test):
                 V[j+1]=0
                 t[j+1]=0 # correction
                 if V[j]>0:
-                    V[j]=0
-                    t[j]=0
+                    
                     print('-In order to avoid incomplete peak extraction \n at the right side of the boundaries, \n we made the scanner to skip the lasts:',l-j,'points')
                     s=j-1
                     break
             
         assert V[s:l-1].all()>=0
-    #breakpoint()
+    
         
             
             
@@ -87,9 +87,11 @@ def negative_scanner(t,V,noise,time_constraint,test):
 
             first_while_parameter=w_parameter; ''' the first while parameter serves for the
                              % second while parameter-(w.p) (see below)'''
+            #breakpoint()
             
             save_starting_parameter[peak_n-1]=first_while_parameter-1;'save the number of the starting t value of the peak for next integration function: here we make the first save_ending_parameter[peak_n-1] to start from the 0 position because peak_n=1 at the onset!'
-            
+            if w_parameter==l-1 :
+                print('-the total number of extracted peaks is:',peak_n)
             
             
             
@@ -103,21 +105,21 @@ def negative_scanner(t,V,noise,time_constraint,test):
                 first_while_parameter=first_while_parameter-1; 'decrease the first w.p.'
         
         
-                if first_while_parameter<1:
+                #if first_while_parameter<1:
                     
-                    ' if the condition is already true at the onset of the loop, then break the while loop'
-                    print('N.B]The first V value is already >0')
+                 #   ' if the condition is already true at the onset of the loop, then break the while loop'
+                  #  print('N.B]The first V value is already >0')
                     
-                    V_peak[first_while_parameter]=float(V[first_while_parameter]);
-                    t_peak[first_while_parameter]=float(t[first_while_parameter]);
-                    first_while_parameter=first_while_parameter+1;
-                    break; 'go to the second while in order to save the points of the selected peak in a new array'
-                    'N.B) this condition should not be activated anymore, since we implemented the first two for loops at the onset, but is usefull to not erase in order to make the scope of these latter more clear'
+                   # V_peak[first_while_parameter]=float(V[first_while_parameter]);
+                    #t_peak[first_while_parameter]=float(t[first_while_parameter]);
+                    #first_while_parameter=first_while_parameter+1;
+                    #break; 'go to the second while in order to save the points of the selected peak in a new array'
+                    #'N.B) this condition should not be activated anymore, since we implemented the first two for loops at the onset, but is usefull to not erase in order to make the scope of these latter more clear'
     
-                elif V[first_while_parameter]>0 :
+                if V[first_while_parameter]>0 :
                     if V[first_while_parameter]==V[second_while_parameter]:
                         shared_points=shared_points+1
-                    'else continue untill V>=0 and control if the ending point of the previous extracted peak is the same as the starting point of the current one'
+                    'continue untill V>=0 and control if the ending point of the previous extracted peak is the same as the starting point of the current one'
         
                     save_starting_parameter[peak_n-1]=first_while_parameter; 'save the starting point of the n-th peak'
                
@@ -223,7 +225,7 @@ def negative_scanner(t,V,noise,time_constraint,test):
    
     
     
-    c=npl.negative_peak_levelling(save_starting_parameter,save_ending_parameter,peak_n,l,noise,time_constraint,t_peak,V_peak)
+    npl.negative_peak_levelling(save_starting_parameter,save_ending_parameter,peak_n,l,noise,time_constraint,t_peak,V_peak)
     
   
         
