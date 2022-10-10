@@ -30,12 +30,12 @@ def positive_scanner(t,V,noise,time_constraint,test):
     if l<50 :
         print("WARNING:too few points")
         return 0
-         
-
+    
+    
     for s in range(0,l):
         
         
-        if s==0 and V[0]<0:
+        if s==0 and V[0]>0:
             j=0
             
             while V[j]>0:
@@ -46,10 +46,10 @@ def positive_scanner(t,V,noise,time_constraint,test):
                     print('-In order to avoid incomplete peak extraction \n at the left side fo the boundaries, \n we made the scanner to skip the firsts:',j,'points')
                     s=j
                     break
-        assert V[:s].all()>=0
+        assert V[:s].all()==0
         
    
-        if s==l-1 and V[s]<0:
+        if s==l-1 and V[s]>0:
             j=s
             while V[j]>0:
                 
@@ -61,8 +61,9 @@ def positive_scanner(t,V,noise,time_constraint,test):
                     print('-In order to avoid incomplete peak extraction \n at the right side of the boundaries, \n we made the scanner to skip the lasts:',l-j,'points')
                     s=j-1
                     break
-            
-        assert V[s:l-1].all()>=0
+            assert V[s:l-1].all()==0
+         
+
     
         
             
