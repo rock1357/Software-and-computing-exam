@@ -118,8 +118,11 @@ def positive_scanner(t,V,noise,time_constraint,test):
                     #'N.B) this condition should not be activated anymore, since we implemented the first two for loops at the onset, but is usefull to not erase in order to make the scope of these latter more clear'
     
                 if V[first_while_parameter]<0 :
-                    if V[first_while_parameter]==V[second_while_parameter]:
+                    if save_ending_parameter[peak_n-2]==save_starting_parameter[peak_n-1]:
                         shared_points=shared_points+1
+               
+        
+              
                     'continue untill V<=0 and control if the ending point of the previous extracted peak is the same as the starting point of the current one'
         
                     save_starting_parameter[peak_n-1]=first_while_parameter; 'save the starting point of the n-th peak'
