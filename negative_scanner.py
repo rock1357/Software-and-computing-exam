@@ -117,11 +117,8 @@ def negative_scanner(t,V,noise,time_constraint,test):
                     #'N.B) this condition should not be activated anymore, since we implemented the first two for loops at the onset, but is usefull to not erase in order to make the scope of these latter more clear'
     
                 if V[first_while_parameter]>0 :
-                    if save_ending_parameter[peak_n-2]==save_starting_parameter[peak_n-1]:
+                    if V[first_while_parameter]==V[second_while_parameter]:
                         shared_points=shared_points+1
-               
-        
-                    
                     'continue untill V>=0 and control if the ending point of the previous extracted peak is the same as the starting point of the current one'
         
                     save_starting_parameter[peak_n-1]=first_while_parameter; 'save the starting point of the n-th peak'
@@ -204,7 +201,7 @@ def negative_scanner(t,V,noise,time_constraint,test):
              
              if i==l-1:
                 
-                 
+                 breakpoint()
                  assert l-nan_points-1==sum(points_nth_peak)-shared_points or sum(points_nth_peak)-shared_points==l-nan_points ,'the number of the points of the extracted peaks \n should be equal to the number of the \n total point - the number of the ones converted in nan'; 'problem here'
                 
     for i in range(0,peak_n):
